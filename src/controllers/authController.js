@@ -20,9 +20,11 @@ exports.register = async (req, res) => {
     await User.updateRefreshToken(user.id, refreshToken);
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none',    // ← cross-site uchun
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
     res.status(201).json({
       accessToken,
